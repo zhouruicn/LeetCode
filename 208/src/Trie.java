@@ -1,4 +1,5 @@
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Trie {
 
@@ -13,10 +14,10 @@ public class Trie {
         Node temp;
         char[] chars = word.toCharArray();
         for (Character ch : chars) {
-            temp = node.map.get(ch);
+            temp = node.list.get(ch);
             if (null == temp) {
                 temp = new Node();
-                node.map.put(ch, temp);
+                node.list.set(ch, temp);
             }
             node = temp;
         }
@@ -27,7 +28,7 @@ public class Trie {
         Node node = root;
         char[] chars = word.toCharArray();
         for (int i = 0; i < chars.length; i++) {
-            node = node.map.get(chars[i]);
+            node = node.list.get(chars[i]);
             if (null == node) {
                 return false;
             }
@@ -39,7 +40,7 @@ public class Trie {
         Node node = root;
         char[] chars = prefix.toCharArray();
         for (int i = 0; i < chars.length; i++) {
-            node = node.map.get(chars[i]);
+            node = node.list.get(chars[i]);
             if (null == node) {
                 return false;
             }
@@ -51,13 +52,18 @@ public class Trie {
 
         private boolean wordEnd = false;
 
-        private HashMap<Character, Node> map = new HashMap<>();
+        private List<Node> list = new ArrayList<>();
 
+        Node() {
+            for (int i = 0; i < 128; i++) {
+                list.add(null);
+            }
+        }
     }
 
     public static void main(String[] args) {
         Trie trie = new Trie();
-        // trie.insert("apple");
+        trie.insert("apple");
         System.out.println(trie.search("apple"));
         System.out.println(trie.startsWith("app"));
         System.out.println(trie.startsWith("appq"));
