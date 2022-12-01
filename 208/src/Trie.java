@@ -1,6 +1,3 @@
-import java.util.ArrayList;
-import java.util.List;
-
 public class Trie {
 
     private Node root;
@@ -14,10 +11,10 @@ public class Trie {
         Node temp;
         char[] chars = word.toCharArray();
         for (Character ch : chars) {
-            temp = node.list.get(ch);
+            temp = node.leaves[ch];
             if (null == temp) {
                 temp = new Node();
-                node.list.set(ch, temp);
+                node.leaves[ch] = temp;
             }
             node = temp;
         }
@@ -28,7 +25,7 @@ public class Trie {
         Node node = root;
         char[] chars = word.toCharArray();
         for (int i = 0; i < chars.length; i++) {
-            node = node.list.get(chars[i]);
+            node = node.leaves[chars[i]];
             if (null == node) {
                 return false;
             }
@@ -40,7 +37,7 @@ public class Trie {
         Node node = root;
         char[] chars = prefix.toCharArray();
         for (int i = 0; i < chars.length; i++) {
-            node = node.list.get(chars[i]);
+            node = node.leaves[chars[i]];
             if (null == node) {
                 return false;
             }
@@ -52,13 +49,8 @@ public class Trie {
 
         private boolean wordEnd = false;
 
-        private List<Node> list = new ArrayList<>();
+        private Node[] leaves = new Node[128];
 
-        Node() {
-            for (int i = 0; i < 128; i++) {
-                list.add(null);
-            }
-        }
     }
 
     public static void main(String[] args) {
